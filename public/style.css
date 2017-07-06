@@ -1,0 +1,38 @@
+.map_container {
+    position: relative;
+    margin: 60px 10px 10px 10px;
+    height:100%;
+}
+
+
+#map {
+    height:100%;
+    overflow: hidden;
+    padding-bottom: 25%;
+    padding-top: 20%;
+    position: relative;
+}
+
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+.navbar-nav  li a:hover {
+    color: #1abc9c !important;
+}
+form {
+    width: 700px;
+    margin: 0 auto;
+}
+
+.form-signin-heading {
+    text-align: center;
+}
+.google {
+    margin-left: 37%;
+}
