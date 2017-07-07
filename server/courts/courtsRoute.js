@@ -1,5 +1,5 @@
-const courtCtr = require('./courtsCtrl');
+const courtCtrl = require('./courtsCtrl');
 
 module.exports = app => {
-    app.post('api/emails', courtCtr.postCourtsToDatabase)
-}
+    app.post('api/courts', courtCtrl.postCourtsToDatabase)
+};
