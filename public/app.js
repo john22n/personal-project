@@ -9,9 +9,22 @@ angular.module('app', ['ui.router'])
             })
             .state('home', {
                 url: '/',
-                template: '<home-directive></home-directive>'
+                template: '<home-directive></home-directive>',
+                resolve: {
+                    isLoggedIn: isLoggedIn
+                }
             });
 
 
 
     });
+
+function isLoggedIn($http, $state){
+    return $http.get('/api/isLoggedin').then(function(res){
+        console.log(res);
+        return res
+    }).catch(function(err){
+        console.log(err);
+        $state.go('login')
+    })
+}

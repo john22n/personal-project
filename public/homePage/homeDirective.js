@@ -8,21 +8,15 @@ angular.module('app').directive('homeDirective', function() {
             let map;
             let mapElement;
             let center;
-            let geoJSON;
-            let request;
-            let gettingData = false;
-            let openWeatherMapKey = '93166548de27d485e8548e0244444cd3';
+            // let geoJSON;
+            // let request;
+            // let gettingData = false;
+            // let openWeatherMapKey = '93166548de27d485e8548e0244444cd3';
             let count = 0;
             let buttonArray = [];
-            let markerArray = []
+            let markerArray = [];
 
-            // googleService.getCourt(center).then(function(response){
-            //     console.log(response);
-            // });
 
-            // Have a check in function on the infowindow that adds a user to the court
-            // You need a table with courts
-            // You need a table with court_players
 
 
             if (googleService.user.id) {
@@ -70,9 +64,7 @@ angular.module('app').directive('homeDirective', function() {
                         var infowindows = [];
                         let results = response.data;
                         for (let result of results) {
-                            /*var content = angular.element(result.name + '<br />' + result.vicinity +
-                                '<br /><button class="checkin">checkIn</button>' +
-                                '<br />' + '<p>ballers</p>' + count)*/
+
                             var div = document.createElement('div');
                             var line1 = document.createElement('h6');
                             line1.innerText = result.name
@@ -107,9 +99,15 @@ angular.module('app').directive('homeDirective', function() {
                                 } else {
                                     e.target.innerText = "Check in";
                                     checkOut(id);
-                                    num--
-                                    for (let button of buttonArray) {
-                                        button.disabled = false
+                                    num--;
+                                    for (let i = 0; i < buttonArray.length; i++) {
+                                        var btnEnd = buttonArray[i];
+                                        btnEnd.disabled = false;
+                                        if (btnEnd.dataset.id === id) {
+                                            markerArray[i].setIcon();
+                                        }
+
+
                                     }
 
                                 }
@@ -144,13 +142,7 @@ angular.module('app').directive('homeDirective', function() {
 
 
                             })
-                            markerArray.push(marker)
-                            // marker.addListener('mouseout', function() {
-                            //     $timeout(function() {
-                            //         infowindow.close();
-                            //     }, 4000);
-                            // })
-
+                            markerArray.push(marker);
                         }
                     })
 
@@ -166,12 +158,9 @@ angular.module('app').directive('homeDirective', function() {
 
 
             });
-
-
             $timeout(function() {
                 mapElement = document.getElementById('map');
-                // console.log(mapElement);
-                // console.log(window.google);
+
                 center = {lat: 34.7776825, lng: -96.79572639999999
                 };
                 map = new window.google.maps.Map(mapElement, {
@@ -183,6 +172,8 @@ angular.module('app').directive('homeDirective', function() {
                 getPlaces(center);
 
             }, 200)
+
+
             // function getWeather() {
             //     google.maps.event.addListener(map, 'idle', checkIfDataRequested);
             //     // Sets up and populates the info window with details

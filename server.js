@@ -94,7 +94,7 @@ passport.deserializeUser((user, done) => {
 
 
 app.get('/api/places', (req, res) => {
-    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyDHB0MQwNOEwkkn9eq4svRDT2swYz0qPHo&type=park&radius=8000&name=basketball&location=' + req.query.lat + ',' + req.query.lng)
+    axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyDHB0MQwNOEwkkn9eq4svRDT2swYz0qPHo&type=park&radius=8047&name=basketball&location=' + req.query.lat + ',' + req.query.lng)
         .then(response => {
             var db = req.app.get('db')
 
@@ -156,15 +156,10 @@ app.post('/api/court_player', (req, res) => {
                     return res.status(200).json("Yay")
                 })
         })
-    // To do all of this, you need a court_players table (id, user_id, court_id)
-    // When a user clicks on a court, pass the user id and the court_id to this endpoint (as req.body)
-    // Look for the id of the court by court_id (SELECT id from courts where court_id = req.body.court_id)
-    // Insert the user into the court_players table with the court_id
-
 });
 
 app.delete('/api/remove_player/:google_id/:user_id', (req, res) => {
-    console.log(req.params.google_id)
+    console.log(req.params.google_id);
     let db = req.app.get('db');
     db.run('SELECT id from courts WHERE google_id = $1', [req.params.google_id])
         .then(courts => {

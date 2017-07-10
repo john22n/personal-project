@@ -25,14 +25,15 @@
 .navbar-nav  li a:hover {
     color: #1abc9c !important;
 }
-form {
-    width: 700px;
+
+.google {
+    display: block;
     margin: 0 auto;
+    width: 200px;
 }
 
-.form-signin-heading {
+#or {
     text-align: center;
 }
-.google {
-    margin-left: 37%;
-}
+
+

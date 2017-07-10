@@ -7,7 +7,19 @@ angular.module('app')
             link: (scope, element, attributes) => {
 
             },
-            controller: ($scope) => {
+            controller: ($scope, userService, $state) => {
+                $scope.guestUser = function() {
+                    userService.guestUser()
+                        .then(function(response) {
+                            console.log(response + 'this is the guest service call');
+                            $state.go('home')
+                         })
+                        .catch(function(err) {
+                            console.warn(err)
+                        })
+
+                }
+
             }
         }
     });
