@@ -26,6 +26,11 @@
     "express-session": "^1.15.3",
     "massive": "^3.0.0",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0"
+    "passport-google-oauth": "^1.0.0",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "moment": "^2.18.1",
+    "socket.io-client": "^2.0.3"
   }
 }

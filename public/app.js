@@ -13,7 +13,11 @@ angular.module('app', ['ui.router'])
                 resolve: {
                     isLoggedIn: isLoggedIn
                 }
-            });
+            })
+            .state('ball', {
+                url: '/ball',
+                template: '<ball-directive></ball-directive>'
+            })
 
 
 

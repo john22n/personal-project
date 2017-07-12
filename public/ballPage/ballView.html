@@ -1,0 +1,25 @@
+<div class="chat">
+    <h3 id="socket">Ballin Chat</h3>
+<main id="main">
+    <div id="chatHome">
+        <form ng-submit="sendMessage(message)" name="socket">
+            <input name="socket" type="text" ng-model="message" placeholder="Type a message" required>
+        </form>
+        <div class="chat-container">
+            <!--<h4>Chat</h4>-->
+            <div class='chat-wrapper' ng-repeat="message in messages.slice().reverse()">
+                <b>{{message.user.first_name}}:&nbsp;</b>
+                <i>{{message.message}}</i>
+                <p id="time">{{message.date}}</p>
+                <hr />
+            </div>
+        </div>
+        <!--<div class="user-container">-->
+            <!--&lt;!&ndash;<h4>Users</h4>&ndash;&gt;-->
+            <!--<div ng-repeat="user in users track by user.id">-->
+                <!--{{user.username}}-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</main>
+</div>

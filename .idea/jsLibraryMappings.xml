@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{angular, angular-DefinitelyTyped, angular-animate, angular-ui-router-DefinitelyTyped, bootstrap-DefinitelyTyped, express-DefinitelyTyped, gulp-DefinitelyTyped, massive-DefinitelyTyped, node-DefinitelyTyped, passport-DefinitelyTyped}" />
+    <file url="PROJECT" libraries="{angular, angular-DefinitelyTyped, angular-animate, angular-ui-router-DefinitelyTyped, bootstrap-DefinitelyTyped, express-DefinitelyTyped, gulp-DefinitelyTyped, massive-DefinitelyTyped, node-DefinitelyTyped, passport-DefinitelyTyped, socket.io-DefinitelyTyped}" />
   </component>
 </project>
