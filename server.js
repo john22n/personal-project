@@ -20,10 +20,7 @@ const io = require('socket.io')(httpServer);
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(session(process.env.SECRET,
-    process.env.RESAVE,
-    process.env.SAVEUNINITIALIZED
-                ));
+app.use(session(config.session));
 app.use("/", express.static(__dirname + "/public"));
 app.use(passport.initialize());
 app.use(passport.session());
