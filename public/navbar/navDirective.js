@@ -8,18 +8,26 @@ angular.module('app').directive('navDirective', function () {
         link: (scope, element, attributes) => {
 
         },
-        controller: ($scope, googleService) => {
-            if (googleService.user.id) {
-                console.log("Found user", googleService.user)
-                $scope.user = googleService.user
+        controller: ($scope, userService, $rootScope) => {
+
+            if (userService.user.id) {
+                $scope.user = userService.user;
             } else {
-                googleService.getUser()
+                userService.guestUser()
                     .then(response => {
-                        $scope.user = response
+                        $scope.user = response.data[0];
+                        console.log($scope.user);
+
                     })
             }
+
+            $rootScope.$on('newUser', function(event, data) {
+                if (data) {
+                    $scope.user = data;
+                }
+            })
 
         }
     }
 
-})
+});

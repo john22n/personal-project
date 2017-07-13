@@ -5,51 +5,42 @@ angular.module('app').directive('homeDirective', function() {
 
         },
         controller: function($scope, $timeout, googleService, userService) {
-            let map;
-            let mapElement;
-            let center;
-            // let geoJSON;
-            // let request;
-            // let gettingData = false;
-            // let openWeatherMapKey = '93166548de27d485e8548e0244444cd3';
-            let count = 0;
-            let buttonArray = [];
-            let markerArray = [];
+            var map;
+            var mapElement;
+            var center;
+            var buttonArray = [];
+            var markerArray = [];
 
 
 
 
-            if (googleService.user.id) {
-                console.log("Found user", googleService.user);
-                $scope.user = googleService.user
+            if (userService.user.id) {
+                $scope.user = userService.user
             } else {
-                googleService.getUser()
+                userService.getUser()
                     .then(response => {
-                        console.log("controller", response);
-                        $scope.user = response
+                        if (response.id) {
+                            $scope.user = response
+                        } else {
+                            userService.guestUser()
+                                .then(response => {
+                                    $scope.user = response.data[0]
 
-                    }).catch((err)=>{
-                    console.log(err);
-                })
+                                }).catch((err)=>{
+                                console.log(err);
+                            })
+
+                        }
+                    })
             }
             //pass user id court id
             function checkIn(google_id) {
-                if (!$scope.user.id) {
-                    $scope.user = {id: 2}
-                }
-                console.log($scope.user.id);
                 userService.checkIn(google_id, $scope.user.id)
                     .then(function(response) {
                         console.log(response)
                     })
             }
             function checkOut(google_id) {
-                console.log("Court:", google_id);
-
-                if (!$scope.user.id) {
-                    $scope.user = {id: 2}
-                }
-
                 userService.checkOut(google_id, $scope.user.id).then(function (response) {
                     console.log(response);
                 })
@@ -62,14 +53,14 @@ angular.module('app').directive('homeDirective', function() {
                     .then(function(response) {
                         console.log(response);
                         var infowindows = [];
-                        let results = response.data;
-                        for (let result of results) {
+                        var results = response.data;
+                        for (var result of results) {
 
                             var div = document.createElement('div');
                             var line1 = document.createElement('h6');
-                            line1.innerText = result.name
+                            line1.innerText = result.name;
                             var line2 = document.createElement('h6');
-                            line2.innerText = result.vicinity
+                            line2.innerText = result.vicinity;
                             var line3 = document.createElement('p');
                             line3.innerText = 'Ballers ' + result.count;
                             var button = document.createElement('button');
@@ -86,12 +77,12 @@ angular.module('app').directive('homeDirective', function() {
                                 if (e.target.innerText === "Check in") {
                                     e.target.innerText = "Check out";
                                     checkIn(id);
-                                    num++
+                                    num++;
                                     for (let i = 0; i < buttonArray.length; i++) {
-                                        var btn = buttonArray[i]
-                                        btn.disabled = true
+                                        var btn = buttonArray[i];
+                                        btn.disabled = true;
                                         if (btn.dataset.id === id) {
-                                            console.log(markerArray[i])
+                                            console.log(markerArray[i]);
                                             markerArray[i].setIcon({url: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png", scaledSize: new google.maps.Size(25, 25)})
                                         }
                                     }
@@ -114,19 +105,19 @@ angular.module('app').directive('homeDirective', function() {
                                 text.innerText = "Ballers " + num
 
                             });
-                            buttonArray.push(button)
-                            div.appendChild(line1)
-                            div.appendChild(line2)
-                            div.appendChild(line3)
-                            div.appendChild(button)
-                            let image = result.icon;
-                            let infowindow = new google.maps.InfoWindow({
+                            buttonArray.push(button);
+                            div.appendChild(line1);
+                            div.appendChild(line2);
+                            div.appendChild(line3);
+                            div.appendChild(button);
+                            var image = result.icon;
+                            var infowindow = new google.maps.InfoWindow({
                                 content: div
 
 
                             });
                             infowindows.push(infowindow);
-                            let marker = new window.google.maps.Marker({
+                            var marker = new window.google.maps.Marker({
                                 map: map,
                                 position: {
                                     lat: result.geometry.location.lat,
@@ -141,7 +132,7 @@ angular.module('app').directive('homeDirective', function() {
                                 infowindow.open(map, marker);
 
 
-                            })
+                            });
                             markerArray.push(marker);
                         }
                     })
@@ -153,7 +144,6 @@ angular.module('app').directive('homeDirective', function() {
                     center = {lat: position.coords.latitude, lng: position.coords.longitude};
                     map.panTo(center);
                     getPlaces(center);
-                    //getCourt(center);
                 }
 
 
@@ -165,137 +155,12 @@ angular.module('app').directive('homeDirective', function() {
                 };
                 map = new window.google.maps.Map(mapElement, {
                     center: center,
-                    zoom: 12
+                    zoom: 11
                 });
 
-                //getWeather()
                 getPlaces(center);
 
-            }, 200)
-
-
-            // function getWeather() {
-            //     google.maps.event.addListener(map, 'idle', checkIfDataRequested);
-            //     // Sets up and populates the info window with details
-            //     map.data.addListener('click', function(event) {
-            //         infowindow.setContent(
-            //             "<img src=" + event.feature.getProperty("icon") + ">"
-            //             + "<br /><strong>" + event.feature.getProperty("city") + "</strong>"
-            //             + "<br />" + event.feature.getProperty("temperature") + "&deg;C"
-            //             + "<br />" + event.feature.getProperty("weather")
-            //         );
-            //         infowindow.setOptions({
-            //             position:{
-            //                 lat: event.latLng.lat(),
-            //                 lng: event.latLng.lng()
-            //             },
-            //             pixelOffset: {
-            //                 width: 0,
-            //                 height: -15
-            //             }
-            //         });
-            //         infowindow.open(map);
-            //     });
-            //
-            //     var checkIfDataRequested = function() {
-            //         // Stop extra requests being sent
-            //         while (gettingData === true) {
-            //             request.abort();
-            //             gettingData = false;
-            //         }
-            //         getCoords();
-            //     };
-            //     // Get the coordinates from the Map bounds
-            //     var getCoords = function() {
-            //         var bounds = map.getBounds();
-            //         console.log(bounds)
-            //         var NE = bounds.getNorthEast();
-            //         var SW = bounds.getSouthWest();
-            //         getWeather(NE.lat(), NE.lng(), SW.lat(), SW.lng());
-            //     };
-            //     // Make the weather request
-            //     var getWeather = function(northLat, eastLng, southLat, westLng) {
-            //         gettingData = true;
-            //         var requestString = "http://api.openweathermap.org/data/2.5/box/city?box="
-            //             + westLng + "," + northLat + "," //left top
-            //             + eastLng + "," + southLat + "," //right bottom
-            //             + map.getZoom()
-            //             + "&cluster=yes&format=json"
-            //             + "&APPID=" + openWeatherMapKey;
-            //         request = new XMLHttpRequest();
-            //         request.onloadend = processResults;
-            //         request.onprogress = function(err) {console.log(err)}
-            //         request.open("GET", requestString, true);
-            //         request.send();
-            //     };
-            //     // Take the JSON results and proccess them
-            //     var processResults = function() {
-            //         console.log(this);
-            //         var results = JSON.parse(this.responseText);
-            //         if (results.list.length > 0) {
-            //             resetData();
-            //             for (var i = 0; i < results.list.length; i++) {
-            //                 geoJSON.features.push(jsonToGeoJson(results.list[i]));
-            //             }
-            //             drawIcons(geoJSON);
-            //         }
-            //     };
-            //     var infowindow = new window.google.maps.InfoWindow();
-            //     // For each result that comes back, convert the data to geoJSON
-            //     var jsonToGeoJson = function (weatherItem) {
-            //         var feature = {
-            //             type: "Feature",
-            //             properties: {
-            //                 city: weatherItem.name,
-            //                 weather: weatherItem.weather[0].main,
-            //                 temperature: weatherItem.main.temp,
-            //                 min: weatherItem.main.temp_min,
-            //                 max: weatherItem.main.temp_max,
-            //                 humidity: weatherItem.main.humidity,
-            //                 pressure: weatherItem.main.pressure,
-            //                 windSpeed: weatherItem.wind.speed,
-            //                 windDegrees: weatherItem.wind.deg,
-            //                 windGust: weatherItem.wind.gust,
-            //                 icon: "http://openweathermap.org/img/w/"
-            //                 + weatherItem.weather[0].icon  + ".png",
-            //                 coordinates: [weatherItem.coord.lon, weatherItem.coord.lat]
-            //             },
-            //             geometry: {
-            //                 type: "Point",
-            //                 coordinates: [weatherItem.coord.lon, weatherItem.coord.lat]
-            //             }
-            //         };
-            //         // Set the custom marker icon
-            //         map.data.setStyle(function(feature) {
-            //             return {
-            //                 icon: {
-            //                     url: feature.getProperty('icon'),
-            //                     anchor: new google.maps.Point(25, 25)
-            //                 }
-            //             };
-            //         });
-            //         // returns object
-            //         return feature;
-            //     };
-            //     // Add the markers to the map
-            //     var drawIcons = function (weather) {
-            //         map.data.addGeoJson(geoJSON);
-            //         // Set the flag to finished
-            //         gettingData = false;
-            //     };
-            //     // Clear data layer and geoJSON
-            //     var resetData = function () {
-            //         geoJSON = {
-            //             type: "FeatureCollection",
-            //             features: []
-            //         };
-            //         map.data.forEach(function(feature) {
-            //             map.data.remove(feature);
-            //         });
-            //     };
-            //     console.log("Here?")
-            //
-            // }
+            }, 100);
 
 
         },

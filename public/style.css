@@ -10,7 +10,6 @@
     overflow: hidden;
     padding-bottom: 25%;
     padding-top: 20%;
-    position: relative;
 }
 
 .navbar {
@@ -36,4 +35,55 @@
     text-align: center;
 }
 
+/*ball page*/
 
+#socket {
+    text-align: center;
+}
+
+input:not([type]), input[type=text] {
+    text-align: center !important;
+}
+
+#main {
+    height: 100%;
+}
+
+#chatHome {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#time {
+    margin-left: 75%;
+    opacity: 0.6;
+}
+
+.chat-wrapper{
+    word-wrap: break-word;
+}
+
+.chat {
+    margin-top: 50px;
+}
+
+@media screen and (max-width: 500px) {
+    #map {
+        padding-bottom: 100%;
+    }
+    #homelink {
+        display: none;
+    }
+}
+
+@media screen and (min-height: 1081px){
+    #map {
+        padding-bottom: 100%;
+    }
+}
+
+/*login page*/
+
+#login {
+    margin-top: 65px;
+}

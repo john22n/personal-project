@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,15 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Personal Project</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link rel="stylesheet" href="style.css">
 
-<body>
+<body ng-app="app">
     <nav-directive></nav-directive>
 
     <ui-view></ui-view>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHB0MQwNOEwkkn9eq4svRDT2swYz0qPHo">
@@ -30,6 +34,8 @@
 <script src="./navbar/navDirective.js"></script>
 <script src="./services/googleService.js"></script>
 <script src="./services/userService.js"></script>
+<script src="./ballPage/ballDirective.js"></script>
+<script src="./services/socketService.js"></script>
 
 </body>
 </html>

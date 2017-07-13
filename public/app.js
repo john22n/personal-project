@@ -1,5 +1,5 @@
 angular.module('app', ['ui.router'])
-    .config( ($stateProvider, $urlRouterProvider) => {
+    .config( function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/login');
 
         $stateProvider
@@ -13,7 +13,14 @@ angular.module('app', ['ui.router'])
                 resolve: {
                     isLoggedIn: isLoggedIn
                 }
-            });
+            })
+            .state('ball', {
+                url: '/ball',
+                template: '<ball-directive></ball-directive>',
+                resolve: {
+                    isLoggedIn: isLoggedIn
+                }
+            })
 
 
 

@@ -18,5 +18,6 @@
     <orderEntry type="library" name="massive-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="node-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="passport-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="socket.io-DefinitelyTyped" level="application" />
   </component>
 </module>
