@@ -1,4 +1,7 @@
+
+require('dotenv').config();
 const express = require('express');
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const port = 3001;
@@ -17,12 +20,15 @@ const io = require('socket.io')(httpServer);
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(session(config.session));
+app.use(session(process.env.SECRET,
+    process.env.RESAVE,
+    process.env.SAVEUNINITIALIZED
+                ));
 app.use("/", express.static(__dirname + "/public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
-massive(config.postgres).then(db => {
+massive(process.env.DATABASE_URL).then(db => {
     db.createUserTable();
     db.createCourtsTable();
     db.createCourtPlayers();
@@ -118,7 +124,7 @@ io.on('connection', socket => {
     })
 });
 //listener
-httpServer.listen(port, () => {
+httpServer.listen(process.env.PORT, () => {
     console.log(`server listening on port ${port}`);
 });
 
