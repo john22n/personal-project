@@ -5,46 +5,42 @@ angular.module('app').directive('homeDirective', function() {
 
         },
         controller: function($scope, $timeout, googleService, userService) {
-            let map;
-            let mapElement;
-            let center;
-            let buttonArray = [];
-            let markerArray = [];
+            var map;
+            var mapElement;
+            var center;
+            var buttonArray = [];
+            var markerArray = [];
 
 
 
 
-            if (googleService.user.id) {
-                console.log("Found user", googleService.user);
-                $scope.user = googleService.user
+            if (userService.user.id) {
+                $scope.user = userService.user
             } else {
-                googleService.getUser()
+                userService.getUser()
                     .then(response => {
-                        console.log("controller", response);
-                        $scope.user = response
+                        if (response.id) {
+                            $scope.user = response
+                        } else {
+                            userService.guestUser()
+                                .then(response => {
+                                    $scope.user = response.data[0]
 
-                    }).catch((err)=>{
-                    console.log(err);
-                })
+                                }).catch((err)=>{
+                                console.log(err);
+                            })
+
+                        }
+                    })
             }
             //pass user id court id
             function checkIn(google_id) {
-                if (!$scope.user.id) {
-                    $scope.user = {id: 2}
-                }
-                console.log($scope.user.id);
                 userService.checkIn(google_id, $scope.user.id)
                     .then(function(response) {
                         console.log(response)
                     })
             }
             function checkOut(google_id) {
-                console.log("Court:", google_id);
-
-                if (!$scope.user.id) {
-                    $scope.user = {id: 2}
-                }
-
                 userService.checkOut(google_id, $scope.user.id).then(function (response) {
                     console.log(response);
                 })
@@ -57,14 +53,14 @@ angular.module('app').directive('homeDirective', function() {
                     .then(function(response) {
                         console.log(response);
                         var infowindows = [];
-                        let results = response.data;
-                        for (let result of results) {
+                        var results = response.data;
+                        for (var result of results) {
 
                             var div = document.createElement('div');
                             var line1 = document.createElement('h6');
-                            line1.innerText = result.name
+                            line1.innerText = result.name;
                             var line2 = document.createElement('h6');
-                            line2.innerText = result.vicinity
+                            line2.innerText = result.vicinity;
                             var line3 = document.createElement('p');
                             line3.innerText = 'Ballers ' + result.count;
                             var button = document.createElement('button');
@@ -81,12 +77,12 @@ angular.module('app').directive('homeDirective', function() {
                                 if (e.target.innerText === "Check in") {
                                     e.target.innerText = "Check out";
                                     checkIn(id);
-                                    num++
+                                    num++;
                                     for (let i = 0; i < buttonArray.length; i++) {
-                                        var btn = buttonArray[i]
-                                        btn.disabled = true
+                                        var btn = buttonArray[i];
+                                        btn.disabled = true;
                                         if (btn.dataset.id === id) {
-                                            console.log(markerArray[i])
+                                            console.log(markerArray[i]);
                                             markerArray[i].setIcon({url: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png", scaledSize: new google.maps.Size(25, 25)})
                                         }
                                     }
@@ -109,19 +105,19 @@ angular.module('app').directive('homeDirective', function() {
                                 text.innerText = "Ballers " + num
 
                             });
-                            buttonArray.push(button)
-                            div.appendChild(line1)
-                            div.appendChild(line2)
-                            div.appendChild(line3)
-                            div.appendChild(button)
-                            let image = result.icon;
-                            let infowindow = new google.maps.InfoWindow({
+                            buttonArray.push(button);
+                            div.appendChild(line1);
+                            div.appendChild(line2);
+                            div.appendChild(line3);
+                            div.appendChild(button);
+                            var image = result.icon;
+                            var infowindow = new google.maps.InfoWindow({
                                 content: div
 
 
                             });
                             infowindows.push(infowindow);
-                            let marker = new window.google.maps.Marker({
+                            var marker = new window.google.maps.Marker({
                                 map: map,
                                 position: {
                                     lat: result.geometry.location.lat,
@@ -159,12 +155,12 @@ angular.module('app').directive('homeDirective', function() {
                 };
                 map = new window.google.maps.Map(mapElement, {
                     center: center,
-                    zoom: 12
+                    zoom: 11
                 });
 
                 getPlaces(center);
 
-            }, 200)
+            }, 100);
 
 
         },

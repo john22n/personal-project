@@ -5,4 +5,4 @@ angular.module('app').service('socketService', function() {
     this.getSocket = function() {
         return socket;
     }
-})
+});

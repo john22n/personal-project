@@ -46,15 +46,12 @@ input:not([type]), input[type=text] {
 }
 
 #main {
-    /*background: url("./images/basketball_courthoop.jpg") ;*/
-    /*opacity: 0.5;*/
     height: 100%;
 }
 
 #chatHome {
     width: 80%;
     margin: 0 auto;
-    /*background-color: #ffa770;*/
 }
 
 #time {
@@ -63,7 +60,6 @@ input:not([type]), input[type=text] {
 }
 
 .chat-wrapper{
-    /*overflow-x: scroll;*/
     word-wrap: break-word;
 }
 
@@ -75,4 +71,19 @@ input:not([type]), input[type=text] {
     #map {
         padding-bottom: 100%;
     }
+    #homelink {
+        display: none;
+    }
+}
+
+@media screen and (min-height: 1081px){
+    #map {
+        padding-bottom: 100%;
+    }
+}
+
+/*login page*/
+
+#login {
+    margin-top: 65px;
 }
