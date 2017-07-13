@@ -26,14 +26,14 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "massive": "^3.0.0",
+    "moment": "^2.18.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3",
     "uglify-js": "^3.0.24"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "moment": "^2.18.1",
-    "socket.io-client": "^2.0.3"
+    "gulp": "^3.9.1"
   }
 }
