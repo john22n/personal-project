@@ -10,7 +10,6 @@ const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const moment = require('moment');
-const config = require('./server/config');
 const masterRoutes = require('./server/masterRoutes');
 
 const app = express();
@@ -20,7 +19,7 @@ const io = require('socket.io')(httpServer);
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(session(config.session));
+app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));
 app.use("/", express.static(__dirname + "/public"));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -35,7 +34,11 @@ massive(process.env.DATABASE_URL).then(db => {
 masterRoutes(app);
 
 
-passport.use(new GoogleStrategy(config.Strategy,
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENTID,
+    clientSecret: process.env.CLIENTSECRET,
+    callbackURL: process.env.CALLBACKURL
+    },
     (accessToken, refreshToken, profile, done) => {
         process.nextTick(() => {
             // console.log("PRofil", profile);
