@@ -119,7 +119,7 @@ io.on('connection', socket => {
     socket.on('newMessage', message => {
         message.date = moment().format('MMMM Do, h:mm a');
         messages.push(message);
-        console.log('New Message:', message);
+        //console.log('New Message:', message);
         io.sockets.emit('newMessage', message)
     })
 });
